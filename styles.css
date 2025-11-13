@@ -1,0 +1,417 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-color: #4a90e2;
+    --secondary-color: #50c878;
+    --background: #f5f7fa;
+    --card-background: #ffffff;
+    --text-primary: #2c3e50;
+    --text-secondary: #7f8c8d;
+    --border-color: #e1e8ed;
+    --yellow: #ffd700;
+    --red: #ff4444;
+    --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: var(--background);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: var(--card-background);
+    box-shadow: var(--shadow);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color 0.3s;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+}
+
+.nav-links a:hover {
+    color: var(--primary-color);
+    background: var(--background);
+}
+
+.nav-links a.active {
+    color: var(--primary-color);
+    background: var(--background);
+}
+
+.container {
+    max-width: 100%;
+    margin: 10px;
+    padding: 1rem;
+    flex: 1;
+}
+
+.welcome-section {
+    text-align: center;
+    padding: 3rem 0;
+}
+
+.welcome-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.welcome-section > p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+}
+
+.card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.card {
+    background: var(--card-background);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: block;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
+}
+
+.card h3 {
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.card p {
+    color: var(--text-secondary);
+}
+
+.equation-builder {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.equation-builder h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.equation-inputs {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 0 auto 1rem auto;
+    flex-wrap: wrap;
+    padding: 1rem;
+    background: var(--card-background);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    width: 90%;
+}
+
+.hide-inputs-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.equation-inputs input[type="number"],
+.equation-inputs select {
+    padding: 0.75rem 1rem;
+    font-size: 1.2rem;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    width: 120px;
+    text-align: center;
+    transition: border-color 0.3s, color 0.3s, background 0.3s;
+}
+
+.equation-inputs input[type="number"]:focus,
+.equation-inputs select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.equation-inputs #hide-inputs-checkbox:checked ~ input[type="number"],
+.equation-inputs #hide-inputs-checkbox:checked ~ select,
+.equation-inputs #hide-inputs-checkbox:checked ~ .equals ~ .result {
+    color: white;
+}
+
+.equation-inputs #hide-inputs-checkbox:checked ~ .equals ~ .result {
+    background: white;
+}
+
+.equation-inputs select {
+    cursor: pointer;
+    background: white;
+}
+
+.equals {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}
+
+.result {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    min-width: 60px;
+    text-align: center;
+    padding: 0.5rem 1rem;
+    background: var(--background);
+    border-radius: 8px;
+}
+
+.visualization-container {
+    background: var(--card-background);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin: 0.5rem auto 0 auto;
+    width: 90%;
+}
+
+.equation-display {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-around;
+    gap: 1rem;
+    flex-wrap: nowrap;
+    width: 100%;
+}
+
+.number-visualization {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.label-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 20px;
+
+}
+
+.number-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.number-visualization h3 {
+    font-size: 2.7rem;
+    color: white;
+    margin-bottom: 0;
+    font-weight: 500;
+    border: 3px solid var(--text-primary);
+    border-radius: 8px;
+    padding: 0.1rem 0.1rem;
+    background: var(--card-background);
+    min-width: 80px;
+    text-align: center;
+}
+
+.number-visualization input[type="checkbox"]:checked ~ h3 {
+    color: var(--text-primary);
+}
+
+.stack-control-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.stack-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    flex-shrink: 0;
+}
+
+.cube-stack-container {
+    display: none;
+    align-items: flex-end;
+    gap: 1rem;
+    min-height: 150px;
+    justify-content: center;
+    perspective: 1000px;
+    perspective-origin: center center;
+    width: 100%;
+    flex: 1;
+}
+
+.stack-checkbox:checked ~ .cube-stack-container {
+    display: flex;
+}
+
+.operator-display,
+.equals-display {
+    font-size: 2.7rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    align-self: center;
+    margin-top: 1rem;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+/* Isometric cube styles */
+.cube-stack {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 13;
+    align-items: center;
+    perspective: 1000px;
+    margin-bottom: 10px;
+}
+
+.cube {
+    width: 28px;
+    height: 28px;
+    position: relative;
+    transform-style: preserve-3d;
+    transform: rotateX(-35.264deg) rotateY(45deg);
+    transform-origin: center center;
+    margin-bottom: -6px;
+}
+
+.cube-face {
+    position: absolute;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    box-sizing: border-box;
+    backface-visibility: hidden;
+    width: 28px;
+    height: 28px;
+}
+
+/* Top face */
+.cube-face.top {
+    background: var(--cube-color);
+    transform: rotateX(90deg) translateZ(14px);
+}
+
+/* Front face */
+.cube-face.front {
+    background: var(--cube-color-dark);
+    transform: translateZ(14px);
+}
+
+/* Left face - mirrored front */
+.cube-face.left {
+    background: var(--cube-color-dark);
+    transform: rotateY(-90deg) translateZ(14px);
+}
+
+/* Right face */
+.cube-face.right {
+    background: var(--cube-color-darker);
+    transform: rotateY(90deg) translateZ(14px);
+}
+
+/* Back face */
+.cube-face.back {
+    background: var(--cube-color-darker);
+    transform: rotateY(180deg) translateZ(14px);
+}
+
+.cube.yellow {
+    --cube-color: #ffd700;
+    --cube-color-dark: #e6c200;
+    --cube-color-darker: #ccaa00;
+}
+
+.cube.red {
+    --cube-color: #ff4444;
+    --cube-color-dark: #e63939;
+    --cube-color-darker: #cc0000;
+}
+
+footer {
+    background: var(--card-background);
+    text-align: center;
+    padding: 2rem;
+    margin-top: auto;
+    color: var(--text-secondary);
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .equation-inputs {
+        flex-direction: column;
+    }
+    
+    .number-visualization {
+        min-width: 150px;
+    }
+    
+    .operator-display,
+    .equals-display {
+        font-size: 1.5rem;
+    }
+}
+

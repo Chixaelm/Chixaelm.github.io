@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equation Builder - Teacher Helper</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Teacher Helper</h1>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="equation-builder.html" class="active">Equation Builder</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="equation-builder">
+            <h2>Equation Builder</h2>
+            <p class="subtitle">Create simple addition and subtraction equations with visual cube representations</p>
+            
+            <div class="equation-inputs">
+                <input type="checkbox" id="hide-inputs-checkbox" class="hide-inputs-checkbox" checked>
+                <input type="number" id="number1" placeholder="First number" min="0" max="99" value="0">
+                <select id="operator">
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                </select>
+                <input type="number" id="number2" placeholder="Second number" min="0" max="99" value="0">
+                <span class="equals">=</span>
+                <div class="result" id="result">0</div>
+            </div>
+
+            <div class="visualization-container">
+                <div class="equation-display">
+                    <div class="number-visualization" id="number1-vis">
+                        <div class="label-container">
+                            <input type="checkbox" id="checkbox1" class="number-checkbox">
+                            <h3>First Number</h3>
+                        </div>
+                        <div class="stack-control-container">
+                            <input type="checkbox" id="stack-checkbox1" class="stack-checkbox">
+                            <div class="cube-stack-container" id="stack1"></div>
+                        </div>
+                    </div>
+                    <div class="operator-display" id="operator-display">+</div>
+                    <div class="number-visualization" id="number2-vis">
+                        <div class="label-container">
+                            <input type="checkbox" id="checkbox2" class="number-checkbox">
+                            <h3>Second Number</h3>
+                        </div>
+                        <div class="stack-control-container">
+                            <input type="checkbox" id="stack-checkbox2" class="stack-checkbox">
+                            <div class="cube-stack-container" id="stack2"></div>
+                        </div>
+                    </div>
+                    <div class="equals-display">=</div>
+                    <div class="number-visualization" id="result-vis">
+                        <div class="label-container">
+                            <input type="checkbox" id="checkbox3" class="number-checkbox">
+                            <h3>Result</h3>
+                        </div>
+                        <div class="stack-control-container">
+                            <input type="checkbox" id="stack-checkbox3" class="stack-checkbox">
+                            <div class="cube-stack-container" id="stack3"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Teacher Helper. Hosted on GitHub Pages.</p>
+    </footer>
+
+    <script src="equation-builder.js"></script>
+</body>
+</html>
+
