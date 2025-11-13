@@ -249,13 +249,34 @@ body {
 
 .label-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 50px;
     margin-bottom: 20px;
-
 }
 
-.number-checkbox {
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkbox-label:not(:last-of-type) {
+    margin-bottom: 0;
+}
+
+.label-container .checkbox-label + .checkbox-label {
+    margin-top: -50px;
+}
+
+.checkbox-label label {
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    cursor: pointer;
+}
+
+.number-checkbox,
+.stack-checkbox {
     width: 20px;
     height: 20px;
     cursor: pointer;
@@ -274,23 +295,16 @@ body {
     text-align: center;
 }
 
-.number-visualization input[type="checkbox"]:checked ~ h3 {
+.label-container:has(.number-checkbox:checked) ~ .stack-control-container ~ h3,
+.number-visualization:has(.number-checkbox:checked) h3 {
     color: var(--text-primary);
 }
 
 .stack-control-container {
     display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
+    flex-direction: column;
+    align-items: center;
     width: 100%;
-}
-
-.stack-checkbox {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    margin-top: 0.5rem;
-    flex-shrink: 0;
 }
 
 .cube-stack-container {
@@ -302,10 +316,15 @@ body {
     perspective: 1000px;
     perspective-origin: center center;
     width: 100%;
-    flex: 1;
 }
 
-.stack-checkbox:checked ~ .cube-stack-container {
+.stack-checkbox {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.number-visualization:has(.stack-checkbox:checked) .cube-stack-container {
     display: flex;
 }
 
@@ -386,9 +405,9 @@ body {
 }
 
 .cube.red {
-    --cube-color: #ff4444;
-    --cube-color-dark: #e63939;
-    --cube-color-darker: #cc0000;
+    --cube-color: #ff6666;
+    --cube-color-dark: #ff5555;
+    --cube-color-darker: #ff4444;
 }
 
 footer {
