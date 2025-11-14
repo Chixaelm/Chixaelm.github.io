@@ -13,7 +13,7 @@
                 <span class="logo">Fluent Fledglings</span>
             </div>
             <nav class="sidebar-nav">
-                <a href="index.html" class="nav-item active"><span>Home</span></a>
+                <a href="index.html" class="nav-item"><span>Home</span></a>
                 <div class="nav-group">
                     <div class="nav-group-title">Math</div>
                     <a href="javascript:void(0)" class="nav-item"><span>Diene Squares</span></a>
@@ -24,7 +24,7 @@
                     </div>
                     <a href="javascript:void(0)" class="nav-item"><span>Ten Frames</span></a>
                     <div class="nav-subgroup">
-                        <a href="ten-frame-addition.html" class="nav-item"><span>Ten Frame Addition</span></a>
+                        <a href="ten-frame-addition.html" class="nav-item active"><span>Ten Frame Addition</span></a>
                     </div>
                 </div>
             </nav>
@@ -37,38 +37,32 @@
             </header>
 
             <main class="container">
-                <div class="welcome-section">
-                    <h2>Fluent Fledglings</h2>
-                    <p>A collection of educational tools to help teachers in the classroom.</p>
-                    
-                    <div class="card-grid">
-                        <a href="equation-builder.html" class="card">
-                            <h3>Addition &amp; Subtraction Diene Squares</h3>
-                            <p>Create addition or subtraction equations with matching tens-and-ones cube stacks.</p>
-                        </a>
-                        <a href="multiplication.html" class="card">
-                            <h3>Multiplication Diene Squares</h3>
-                            <p>Explore multiplication with cube arrays that show rows, columns, and stacked products.</p>
-                        </a>
-                        <a href="division.html" class="card">
-                            <h3>Division Diene Squares</h3>
-                            <p>Break numbers into equal groups and visualize the quotient using cube stacks.</p>
-                        </a>
-                        <a href="ten-frame-addition.html" class="card">
-                            <h3>Ten Frame Addition</h3>
-                            <p>Use red and yellow ten-frame dots to combine numbers up to twenty.</p>
-                        </a>
+                <div class="ten-frame-page">
+                    <h2>Ten Frame Addition</h2>
+                    <p class="subtitle">Combine two numbers visually using ten frames</p>
+
+                    <div class="equation-inputs">
+                        <input type="number" id="tf-number1" placeholder="First number" min="0" max="10" value="0">
+                        <span class="operator-static">+</span>
+                        <input type="number" id="tf-number2" placeholder="Second number" min="0" max="10" value="0">
+                        <span class="equals">=</span>
+                        <div class="result" id="tf-result">0</div>
+                    </div>
+
+                    <div class="ten-frame-grid" id="ten-frame-grid">
+                        <!-- Ten frames rendered here -->
                     </div>
                 </div>
             </main>
 
             <footer>
-                <p>&copy; 2024 Teacher Helper. Hosted on GitHub Pages.</p>
+                <p>&copy; 2024 Fluent Fledglings. Hosted on GitHub Pages.</p>
             </footer>
         </div>
     </div>
 
     <script src="main.js"></script>
+    <script src="ten-frame-addition.js"></script>
 </body>
 </html>
 
