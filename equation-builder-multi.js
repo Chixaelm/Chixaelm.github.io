@@ -24,6 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const lastCell = cells[cells.length - 1];
             problemsContainer.removeChild(lastCell);
             problemCount--; // Note: IDs might not be sequential if we delete and add, but unique enough for this simple app
+            // Renumber remaining cells just in case (though removing last shouldn't affect others order)
+            updateProblemNumbers();
         } else {
             alert("You must have at least one problem.");
         }
@@ -37,6 +39,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    function updateProblemNumbers() {
+        const cells = problemsContainer.querySelectorAll('.problem-cell');
+        cells.forEach((cell, index) => {
+            const numberEl = cell.querySelector('.problem-number');
+            if (numberEl) {
+                numberEl.textContent = index + 1;
+            }
+        });
+    }
+
     function addProblem() {
         problemCount++;
         const cellId = `problem-${problemCount}`;
@@ -46,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.id = cellId;
 
         cell.innerHTML = `
+            <div class="problem-number">${problemCount}</div>
             <div class="equation-inputs">
                 <input type="checkbox" class="hide-inputs-checkbox" checked title="Toggle inputs visibility">
                 <input type="number" class="number1" placeholder="First" min="0" max="99" value="0">
@@ -115,6 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         problemsContainer.appendChild(cell);
+        // Ensure numbers are correct (handles cases where we might have deleted and added)
+        updateProblemNumbers();
         initializeCell(cell);
     }
 

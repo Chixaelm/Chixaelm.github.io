@@ -741,3 +741,27 @@ body.print-mode .visualization-container {
         background: transparent;
     }
 }
+
+.problem-number {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+body.print-mode .problem-number {
+    background: white;
+    color: black;
+    border: 2px solid black;
+    box-shadow: none;
+}
