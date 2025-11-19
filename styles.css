@@ -190,7 +190,7 @@ body.sidebar-open .sidebar-backdrop {
     color: var(--text-primary);
 }
 
-.welcome-section > p {
+.welcome-section>p {
     font-size: 1.2rem;
     color: var(--text-secondary);
     margin-bottom: 3rem;
@@ -283,13 +283,13 @@ body.sidebar-open .sidebar-backdrop {
     border-color: var(--primary-color);
 }
 
-.equation-inputs #hide-inputs-checkbox:checked ~ input[type="number"],
-.equation-inputs #hide-inputs-checkbox:checked ~ select,
-.equation-inputs #hide-inputs-checkbox:checked ~ .equals ~ .result {
+.equation-inputs #hide-inputs-checkbox:checked~input[type="number"],
+.equation-inputs #hide-inputs-checkbox:checked~select,
+.equation-inputs #hide-inputs-checkbox:checked~.equals~.result {
     color: white;
 }
 
-.equation-inputs #hide-inputs-checkbox:checked ~ .equals ~ .result {
+.equation-inputs #hide-inputs-checkbox:checked~.equals~.result {
     background: white;
 }
 
@@ -531,7 +531,8 @@ footer {
     box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.topbar, footer {
+.topbar,
+footer {
     width: 100%;
 }
 
@@ -635,6 +636,7 @@ footer {
 .dots-hidden .ten-frame-dot-yellow {
     display: none;
 }
+
 @media (min-width: 1024px) {
     .sidebar-backdrop {
         display: block;
@@ -645,14 +647,97 @@ footer {
     .equation-inputs {
         flex-direction: column;
     }
-    
+
     .number-visualization {
         min-width: 150px;
     }
-    
+
     .operator-display,
     .equals-display {
         font-size: 1.5rem;
     }
 }
 
+/* Print Mode Styles */
+body.print-mode .equation-inputs,
+body.print-mode .checkbox-label:not(.print-mode-toggle),
+body.print-mode .add-problem-container,
+body.print-mode .sidebar,
+body.print-mode .topbar,
+body.print-mode footer {
+    display: none !important;
+}
+
+/* Ensure controls bar stays visible for the toggle, but hide other potential children if needed */
+body.print-mode .controls-bar {
+    display: flex;
+    /* Keep it visible */
+    justify-content: flex-end;
+}
+
+body.print-mode .app-shell {
+    display: block;
+}
+
+body.print-mode .main-panel {
+    margin-left: 0;
+    padding: 0;
+}
+
+body.print-mode .container {
+    max-width: 100%;
+    padding: 0;
+}
+
+body.print-mode .problem-cell {
+    box-shadow: none;
+    border: 1px solid #eee;
+    break-inside: avoid;
+    margin-bottom: 1rem;
+}
+
+body.print-mode .visualization-container {
+    box-shadow: none;
+    background: transparent;
+}
+
+/* Print Media Styles (for actual printing) */
+@media print {
+
+    .print-mode-toggle,
+    .controls-bar,
+    .add-problem-container,
+    .sidebar,
+    .topbar,
+    footer,
+    .equation-inputs,
+    .checkbox-label {
+        display: none !important;
+    }
+
+    .app-shell {
+        display: block;
+    }
+
+    .main-panel {
+        margin-left: 0;
+        padding: 0;
+    }
+
+    .container {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .problem-cell {
+        box-shadow: none;
+        border: none;
+        break-inside: avoid;
+        margin-bottom: 1rem;
+    }
+
+    .visualization-container {
+        box-shadow: none;
+        background: transparent;
+    }
+}
