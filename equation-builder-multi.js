@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addProblemBtn = document.getElementById('add-problem-btn');
     const deleteProblemBtn = document.getElementById('delete-problem-btn');
     const printModeCheckbox = document.getElementById('print-mode-checkbox');
+    const printBtn = document.getElementById('print-btn');
     let problemCount = 0;
 
     // Initialize with one problem
@@ -37,6 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             document.body.classList.remove('print-mode');
         }
+    });
+
+    printBtn.addEventListener('click', () => {
+        window.print();
     });
 
     function updateProblemNumbers() {

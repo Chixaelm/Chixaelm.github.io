@@ -673,6 +673,32 @@ body.print-mode .controls-bar {
     display: flex;
     /* Keep it visible */
     justify-content: flex-end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.btn-print {
+    background-color: var(--secondary-color);
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-print:hover {
+    background-color: #45b069;
+    /* Darker green */
+}
+
+/* Show print button only in print mode */
+body.print-mode #print-btn {
+    display: inline-flex !important;
 }
 
 body.print-mode .app-shell {
@@ -711,7 +737,8 @@ body.print-mode .visualization-container {
     .topbar,
     footer,
     .equation-inputs,
-    .checkbox-label {
+    .checkbox-label,
+    #print-btn {
         display: none !important;
     }
 
