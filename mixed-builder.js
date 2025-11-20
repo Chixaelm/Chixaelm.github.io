@@ -85,6 +85,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox">
                                 <label for="stack-checkbox1-${problemCount}">Show Cubes</label>
                             </div>
+                            <select class="visual-type-select" id="visual-type1-${problemCount}">
+                                <option value="cubes">Cubes</option>
+                                <option value="ten-frames">Ten Frames</option>
+                            </select>
                             <div class="checkbox-label">
                                 <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox">
                                 <label for="checkbox1-${problemCount}">Show Number</label>
@@ -102,6 +106,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <input type="checkbox" id="stack-checkbox2-${problemCount}" class="stack-checkbox">
                                 <label for="stack-checkbox2-${problemCount}">Show Cubes</label>
                             </div>
+                            <select class="visual-type-select" id="visual-type2-${problemCount}">
+                                <option value="cubes">Cubes</option>
+                                <option value="ten-frames">Ten Frames</option>
+                            </select>
                             <div class="checkbox-label">
                                 <input type="checkbox" id="checkbox2-${problemCount}" class="number-checkbox">
                                 <label for="checkbox2-${problemCount}">Show Number</label>
@@ -119,6 +127,10 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <input type="checkbox" id="stack-checkbox3-${problemCount}" class="stack-checkbox">
                                 <label for="stack-checkbox3-${problemCount}">Show Cubes</label>
                             </div>
+                            <select class="visual-type-select" id="visual-type3-${problemCount}">
+                                <option value="cubes">Cubes</option>
+                                <option value="ten-frames">Ten Frames</option>
+                            </select>
                             <div class="checkbox-label">
                                 <input type="checkbox" id="checkbox3-${problemCount}" class="number-checkbox">
                                 <label for="checkbox3-${problemCount}">Show Number</label>
@@ -153,10 +165,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const number2Label = cell.querySelector('.number2-vis h3');
         const resultLabel = cell.querySelector('.result-vis h3');
 
+        const visualType1 = cell.querySelector(`#visual-type1-${cell.id.split('-')[1]}`);
+        const visualType2 = cell.querySelector(`#visual-type2-${cell.id.split('-')[1]}`);
+        const visualType3 = cell.querySelector(`#visual-type3-${cell.id.split('-')[1]}`);
+
         // Event listeners
         number1Input.addEventListener('input', updateEquation);
         number2Input.addEventListener('input', updateEquation);
         operatorSelect.addEventListener('change', updateEquation);
+        visualType1.addEventListener('change', updateEquation);
+        visualType2.addEventListener('change', updateEquation);
+        visualType3.addEventListener('change', updateEquation);
 
         // Initial update
         updateEquation();
@@ -214,26 +233,32 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Render visualizations
             if (operator === '*') {
-                renderNumber(clampedNum1, stack1Container);
-                renderNumber(clampedNum2, stack2Container, { horizontalRow: true });
-                renderNumber(result, stack3Container, { stackHeight: clampedNum1, stackCount: clampedNum2 });
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { horizontalRow: true, visualType: visualType2.value, color: 'yellow' });
+                renderNumber(result, stack3Container, { stackHeight: clampedNum1, stackCount: clampedNum2, visualType: visualType3.value, color: 'green' });
             } else if (operator === '/') {
-                renderNumber(clampedNum1, stack1Container);
-                renderNumber(clampedNum2, stack2Container);
-                renderNumber(result, stack3Container);
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { visualType: visualType2.value, color: 'yellow' });
+                renderNumber(result, stack3Container, { visualType: visualType3.value, color: 'green' });
             } else {
                 // Add/Sub
-                renderNumber(clampedNum1, stack1Container);
-                renderNumber(clampedNum2, stack2Container);
-                renderNumber(result, stack3Container);
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { visualType: visualType2.value, color: 'yellow' });
+                renderNumber(result, stack3Container, { visualType: visualType3.value, color: 'green' });
             }
         }
     }
 
     function renderNumber(number, container, options = {}) {
-        const { horizontalRow = false, stackHeight, stackCount } = options;
+        const { horizontalRow = false, stackHeight, stackCount, visualType = 'cubes', color = 'red' } = options;
         container.innerHTML = '';
 
+        if (visualType === 'ten-frames') {
+            renderTenFrames(number, container, color);
+            return;
+        }
+
+        // Cubes Logic
         if (horizontalRow) {
             const row = document.createElement('div');
             row.className = 'cube-row';
@@ -283,6 +308,77 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             container.appendChild(onesStack);
         }
+    }
+
+    function renderTenFrames(number, container, color) {
+        if (number === 0) return;
+
+        const fullFrames = Math.floor(number / 10);
+        const remainder = number % 10;
+
+        const wrapper = document.createElement('div');
+        wrapper.style.display = 'flex';
+        wrapper.style.flexWrap = 'wrap';
+        wrapper.style.gap = '1rem';
+        wrapper.style.justifyContent = 'center';
+
+        // Render full frames
+        for (let i = 0; i < fullFrames; i++) {
+            const frame = createTenFrame(10, `ten-frame-dot-${color}`);
+            wrapper.appendChild(frame);
+        }
+
+        // Render remainder frame
+        if (remainder > 0) {
+            const frame = createTenFrame(remainder, `ten-frame-dot-${color}`);
+            wrapper.appendChild(frame);
+        }
+
+        container.appendChild(wrapper);
+    }
+
+    function createTenFrame(value, colorClass) {
+        const frame = document.createElement('div');
+        frame.className = 'ten-frame';
+        // Ensure ten-frame style is consistent
+        frame.style.display = 'grid';
+        frame.style.gridTemplateColumns = 'repeat(5, 20px)'; // Smaller dots for compact view
+        frame.style.gridTemplateRows = 'repeat(2, 20px)';
+        frame.style.gap = '4px';
+        frame.style.border = '2px solid #333';
+        frame.style.padding = '4px';
+        frame.style.backgroundColor = '#fff';
+        frame.style.borderRadius = '4px';
+
+        for (let i = 0; i < 10; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'ten-frame-cell';
+            cell.style.width = '20px';
+            cell.style.height = '20px';
+            cell.style.display = 'flex';
+            cell.style.alignItems = 'center';
+            cell.style.justifyContent = 'center';
+            // cell.style.border = '1px solid #eee'; // Optional grid lines
+
+            if (i < value) {
+                const dot = document.createElement('span');
+                dot.className = colorClass;
+                // Inline styles for dot to ensure it works without external CSS dependency if needed
+                dot.style.width = '16px';
+                dot.style.height = '16px';
+                dot.style.borderRadius = '50%';
+                dot.style.display = 'block';
+
+                if (colorClass.includes('red')) dot.style.backgroundColor = '#ff6666';
+                else if (colorClass.includes('yellow')) dot.style.backgroundColor = '#ffd700';
+                else if (colorClass.includes('green')) dot.style.backgroundColor = '#4caf50';
+
+                cell.appendChild(dot);
+            }
+            frame.appendChild(cell);
+        }
+
+        return frame;
     }
 
     function createCube(color) {
