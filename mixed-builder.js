@@ -60,85 +60,85 @@ document.addEventListener('DOMContentLoaded', () => {
         const cell = document.createElement('div');
         cell.className = 'problem-cell';
         cell.id = cellId;
+        // Default visual type
+        cell.dataset.visualType = 'cubes';
 
         cell.innerHTML = `
-            <div class="problem-number">${problemCount}</div>
-            <div class="equation-inputs">
-                <input type="checkbox" class="hide-inputs-checkbox" checked title="Toggle inputs visibility">
-                <input type="number" class="number1" placeholder="First" min="0" max="99" value="0">
-                <select class="operator">
-                    <option value="+">+</option>
-                    <option value="-">-</option>
-                    <option value="*">×</option>
-                    <option value="/">÷</option>
-                </select>
-                <input type="number" class="number2" placeholder="Second" min="0" max="99" value="0">
-                <span class="equals">=</span>
-                <div class="result">0</div>
+            <div class="cell-controls">
+                <button class="visual-toggle-btn active" data-type="cubes" title="Use Cubes">
+                    🧊
+                </button>
+                <button class="visual-toggle-btn" data-type="ten-frames" title="Use Ten Frames">
+                    🔢
+                </button>
             </div>
+            <div class="problem-content">
+                <div class="problem-number">${problemCount}</div>
+                <div class="equation-inputs">
+                    <input type="checkbox" class="hide-inputs-checkbox" checked title="Toggle inputs visibility">
+                    <input type="number" class="number1" placeholder="First" min="0" max="99" value="0">
+                    <select class="operator">
+                        <option value="+">+</option>
+                        <option value="-">-</option>
+                        <option value="*">×</option>
+                        <option value="/">÷</option>
+                    </select>
+                    <input type="number" class="number2" placeholder="Second" min="0" max="99" value="0">
+                    <span class="equals">=</span>
+                    <div class="result">0</div>
+                </div>
 
-            <div class="visualization-container">
-                <div class="equation-display">
-                    <div class="number-visualization number1-vis">
-                        <div class="label-container">
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox">
-                                <label for="stack-checkbox1-${problemCount}">Show Cubes</label>
+                <div class="visualization-container">
+                    <div class="equation-display">
+                        <div class="number-visualization number1-vis">
+                            <div class="label-container">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox">
+                                    <label for="stack-checkbox1-${problemCount}">Show Cubes</label>
+                                </div>
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox">
+                                    <label for="checkbox1-${problemCount}">Show Number</label>
+                                </div>
+                                <h3>Fluent Foundations</h3>
                             </div>
-                            <select class="visual-type-select" id="visual-type1-${problemCount}">
-                                <option value="cubes">Cubes</option>
-                                <option value="ten-frames">Ten Frames</option>
-                            </select>
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox">
-                                <label for="checkbox1-${problemCount}">Show Number</label>
+                            <div class="stack-control-container">
+                                <div class="cube-stack-container stack1"></div>
                             </div>
-                            <h3>Fluent Foundations</h3>
                         </div>
-                        <div class="stack-control-container">
-                            <div class="cube-stack-container stack1"></div>
-                        </div>
-                    </div>
-                    <div class="operator-display">+</div>
-                    <div class="number-visualization number2-vis">
-                        <div class="label-container">
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="stack-checkbox2-${problemCount}" class="stack-checkbox">
-                                <label for="stack-checkbox2-${problemCount}">Show Cubes</label>
+                        <div class="operator-display">+</div>
+                        <div class="number-visualization number2-vis">
+                            <div class="label-container">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="stack-checkbox2-${problemCount}" class="stack-checkbox">
+                                    <label for="stack-checkbox2-${problemCount}">Show Cubes</label>
+                                </div>
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="checkbox2-${problemCount}" class="number-checkbox">
+                                    <label for="checkbox2-${problemCount}">Show Number</label>
+                                </div>
+                                <h3>Fluent Foundations</h3>
                             </div>
-                            <select class="visual-type-select" id="visual-type2-${problemCount}">
-                                <option value="cubes">Cubes</option>
-                                <option value="ten-frames">Ten Frames</option>
-                            </select>
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="checkbox2-${problemCount}" class="number-checkbox">
-                                <label for="checkbox2-${problemCount}">Show Number</label>
+                            <div class="stack-control-container">
+                                <div class="cube-stack-container stack2"></div>
                             </div>
-                            <h3>Fluent Foundations</h3>
                         </div>
-                        <div class="stack-control-container">
-                            <div class="cube-stack-container stack2"></div>
-                        </div>
-                    </div>
-                    <div class="equals-display">=</div>
-                    <div class="number-visualization result-vis">
-                        <div class="label-container">
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="stack-checkbox3-${problemCount}" class="stack-checkbox">
-                                <label for="stack-checkbox3-${problemCount}">Show Cubes</label>
+                        <div class="equals-display">=</div>
+                        <div class="number-visualization result-vis">
+                            <div class="label-container">
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="stack-checkbox3-${problemCount}" class="stack-checkbox">
+                                    <label for="stack-checkbox3-${problemCount}">Show Cubes</label>
+                                </div>
+                                <div class="checkbox-label">
+                                    <input type="checkbox" id="checkbox3-${problemCount}" class="number-checkbox">
+                                    <label for="checkbox3-${problemCount}">Show Number</label>
+                                </div>
+                                <h3>Fluent Foundations</h3>
                             </div>
-                            <select class="visual-type-select" id="visual-type3-${problemCount}">
-                                <option value="cubes">Cubes</option>
-                                <option value="ten-frames">Ten Frames</option>
-                            </select>
-                            <div class="checkbox-label">
-                                <input type="checkbox" id="checkbox3-${problemCount}" class="number-checkbox">
-                                <label for="checkbox3-${problemCount}">Show Number</label>
+                            <div class="stack-control-container">
+                                <div class="cube-stack-container stack3"></div>
                             </div>
-                            <h3>Fluent Foundations</h3>
-                        </div>
-                        <div class="stack-control-container">
-                            <div class="cube-stack-container stack3"></div>
                         </div>
                     </div>
                 </div>
@@ -165,17 +165,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const number2Label = cell.querySelector('.number2-vis h3');
         const resultLabel = cell.querySelector('.result-vis h3');
 
-        const visualType1 = cell.querySelector(`#visual-type1-${cell.id.split('-')[1]}`);
-        const visualType2 = cell.querySelector(`#visual-type2-${cell.id.split('-')[1]}`);
-        const visualType3 = cell.querySelector(`#visual-type3-${cell.id.split('-')[1]}`);
+        const toggleBtns = cell.querySelectorAll('.visual-toggle-btn');
 
         // Event listeners
         number1Input.addEventListener('input', updateEquation);
         number2Input.addEventListener('input', updateEquation);
         operatorSelect.addEventListener('change', updateEquation);
-        visualType1.addEventListener('change', updateEquation);
-        visualType2.addEventListener('change', updateEquation);
-        visualType3.addEventListener('change', updateEquation);
+
+        toggleBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update state
+                const type = btn.dataset.type;
+                cell.dataset.visualType = type;
+
+                // Update UI
+                toggleBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Re-render
+                updateEquation();
+            });
+        });
 
         // Initial update
         updateEquation();
@@ -184,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let num1 = parseInt(number1Input.value) || 0;
             let num2 = parseInt(number2Input.value) || 0;
             const operator = operatorSelect.value;
+            const visualType = cell.dataset.visualType;
 
             // Clamp values based on operator
             let clampedNum1 = num1;
@@ -233,18 +244,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Render visualizations
             if (operator === '*') {
-                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
-                renderNumber(clampedNum2, stack2Container, { horizontalRow: true, visualType: visualType2.value, color: 'yellow' });
-                renderNumber(result, stack3Container, { stackHeight: clampedNum1, stackCount: clampedNum2, visualType: visualType3.value, color: 'green' });
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { horizontalRow: true, visualType: visualType, color: 'yellow' });
+                renderNumber(result, stack3Container, { stackHeight: clampedNum1, stackCount: clampedNum2, visualType: visualType, color: 'green' });
             } else if (operator === '/') {
-                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
-                renderNumber(clampedNum2, stack2Container, { visualType: visualType2.value, color: 'yellow' });
-                renderNumber(result, stack3Container, { visualType: visualType3.value, color: 'green' });
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { visualType: visualType, color: 'yellow' });
+                renderNumber(result, stack3Container, { visualType: visualType, color: 'green' });
             } else {
                 // Add/Sub
-                renderNumber(clampedNum1, stack1Container, { visualType: visualType1.value, color: 'red' });
-                renderNumber(clampedNum2, stack2Container, { visualType: visualType2.value, color: 'yellow' });
-                renderNumber(result, stack3Container, { visualType: visualType3.value, color: 'green' });
+                renderNumber(clampedNum1, stack1Container, { visualType: visualType, color: 'red' });
+                renderNumber(clampedNum2, stack2Container, { visualType: visualType, color: 'yellow' });
+                renderNumber(result, stack3Container, { visualType: visualType, color: 'green' });
             }
         }
     }

@@ -10,10 +10,56 @@
         .problem-cell {
             background: white;
             border-radius: 12px;
-            padding: 2rem;
             margin-bottom: 2rem;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             position: relative;
+            display: flex;
+            overflow: hidden;
+            /* Ensure side bar doesn't spill out */
+        }
+
+        .cell-controls {
+            width: 60px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 1rem;
+            gap: 1rem;
+            flex-shrink: 0;
+        }
+
+        .visual-toggle-btn {
+            width: 40px;
+            height: 40px;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .visual-toggle-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .visual-toggle-btn.active {
+            border-color: var(--primary-color, #4a90e2);
+            background-color: #e3f2fd;
+        }
+
+        .problem-content {
+            flex-grow: 1;
+            padding: 2rem;
+            min-width: 0;
+            /* Prevent flex child overflow */
         }
 
         .add-problem-container {
@@ -69,6 +115,24 @@
         /* Ensure visualizations don't overflow */
         .visualization-container {
             overflow-x: auto;
+        }
+
+        /* Print styles */
+        @media print {
+            .cell-controls {
+                display: none !important;
+            }
+
+            .problem-cell {
+                border: none;
+                box-shadow: none;
+                margin-bottom: 1rem;
+                page-break-inside: avoid;
+            }
+
+            .problem-content {
+                padding: 0;
+            }
         }
     </style>
 </head>
