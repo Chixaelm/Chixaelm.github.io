@@ -30,6 +30,13 @@
             flex-shrink: 0;
         }
 
+        .problem-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
         .visual-toggle-btn {
             width: 40px;
             height: 40px;
@@ -120,6 +127,13 @@
         /* Print styles */
         @media print {
             .cell-controls {
+                background-color: transparent !important;
+                border-right: none !important;
+                width: 40px;
+                /* Reduce width slightly in print */
+            }
+
+            .visual-toggle-btn {
                 display: none !important;
             }
 
@@ -132,6 +146,8 @@
 
             .problem-content {
                 padding: 0;
+                padding-left: 1rem;
+                /* Add some spacing from the number */
             }
         }
     </style>

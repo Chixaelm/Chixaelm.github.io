@@ -65,6 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         cell.innerHTML = `
             <div class="cell-controls">
+                <div class="problem-number">${problemCount}</div>
                 <button class="visual-toggle-btn active" data-type="cubes" title="Use Cubes">
                     🧊
                 </button>
@@ -73,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 </button>
             </div>
             <div class="problem-content">
-                <div class="problem-number">${problemCount}</div>
                 <div class="equation-inputs">
                     <input type="checkbox" class="hide-inputs-checkbox" checked title="Toggle inputs visibility">
                     <input type="number" class="number1" placeholder="First" min="0" max="99" value="0">
