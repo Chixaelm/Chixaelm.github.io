@@ -126,11 +126,12 @@
 
         /* Print styles */
         @media print {
-            .cell-controls {
-                background-color: transparent !important;
-                border-right: none !important;
-                width: 40px;
-                /* Reduce width slightly in print */
+
+            .cell-controls,
+            .config-container,
+            .controls-bar,
+            .add-problem-container {
+                display: none !important;
             }
 
             .visual-toggle-btn {
@@ -196,8 +197,6 @@
                         <span>🖨️</span> Print Page
                     </button>
                 </div>
-                <h2>Mixed Problem Worksheet</h2>
-                <p class="subtitle">Create a custom worksheet with mixed operations</p>
 
                 <div id="problems-container">
                     <!-- Problem cells will be added here -->

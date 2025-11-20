@@ -5,10 +5,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const deleteProblemBtn = document.getElementById('delete-problem-btn');
     const printModeCheckbox = document.getElementById('print-mode-checkbox');
     const printBtn = document.getElementById('print-btn');
+    const configJson = document.getElementById('config-json');
     let problemCount = 0;
 
     // Initialize with one problem
     addProblem();
+
+    // Config Event Listener
+    configJson.addEventListener('input', () => {
+        loadConfig(configJson.value);
+    });
 
     addProblemBtn.addEventListener('click', () => {
         addProblem();
@@ -17,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top: document.body.scrollHeight,
             behavior: 'smooth'
         });
+        generateConfig();
     });
 
     deleteProblemBtn.addEventListener('click', () => {
@@ -26,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
             problemsContainer.removeChild(lastCell);
             problemCount--;
             updateProblemNumbers();
+            generateConfig();
         } else {
             alert("You must have at least one problem.");
         }
@@ -53,7 +61,47 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function addProblem() {
+    function generateConfig() {
+        const cells = problemsContainer.querySelectorAll('.problem-cell');
+        const config = [];
+
+        cells.forEach(cell => {
+            const num1 = parseInt(cell.querySelector('.number1').value) || 0;
+            const num2 = parseInt(cell.querySelector('.number2').value) || 0;
+            const operator = cell.querySelector('.operator').value;
+            const visualType = cell.dataset.visualType || 'cubes';
+
+            config.push({
+                num1,
+                num2,
+                operator,
+                visualType
+            });
+        });
+
+        configJson.value = JSON.stringify(config);
+    }
+
+    function loadConfig(jsonString) {
+        try {
+            const config = JSON.parse(jsonString);
+            if (!Array.isArray(config)) return;
+
+            // Clear existing
+            problemsContainer.innerHTML = '';
+            problemCount = 0;
+
+            // Rebuild
+            config.forEach(item => {
+                addProblem(item);
+            });
+
+        } catch (e) {
+            // Ignore invalid JSON while typing
+        }
+    }
+
+    function addProblem(initialState = null) {
         problemCount++;
         const cellId = `problem-${problemCount}`;
 
@@ -61,29 +109,29 @@ document.addEventListener('DOMContentLoaded', () => {
         cell.className = 'problem-cell';
         cell.id = cellId;
         // Default visual type
-        cell.dataset.visualType = 'cubes';
+        cell.dataset.visualType = initialState ? initialState.visualType : 'cubes';
 
         cell.innerHTML = `
             <div class="cell-controls">
                 <div class="problem-number">${problemCount}</div>
-                <button class="visual-toggle-btn active" data-type="cubes" title="Use Cubes">
+                <button class="visual-toggle-btn ${cell.dataset.visualType === 'cubes' ? 'active' : ''}" data-type="cubes" title="Use Cubes">
                     🧊
                 </button>
-                <button class="visual-toggle-btn" data-type="ten-frames" title="Use Ten Frames">
+                <button class="visual-toggle-btn ${cell.dataset.visualType === 'ten-frames' ? 'active' : ''}" data-type="ten-frames" title="Use Ten Frames">
                     🔢
                 </button>
             </div>
             <div class="problem-content">
                 <div class="equation-inputs">
                     <input type="checkbox" class="hide-inputs-checkbox" checked title="Toggle inputs visibility">
-                    <input type="number" class="number1" placeholder="First" min="0" max="99" value="0">
+                    <input type="number" class="number1" placeholder="First" min="0" max="99" value="${initialState ? initialState.num1 : 0}">
                     <select class="operator">
-                        <option value="+">+</option>
-                        <option value="-">-</option>
-                        <option value="*">×</option>
-                        <option value="/">÷</option>
+                        <option value="+" ${initialState && initialState.operator === '+' ? 'selected' : ''}>+</option>
+                        <option value="-" ${initialState && initialState.operator === '-' ? 'selected' : ''}>-</option>
+                        <option value="*" ${initialState && initialState.operator === '*' ? 'selected' : ''}>×</option>
+                        <option value="/" ${initialState && initialState.operator === '/' ? 'selected' : ''}>÷</option>
                     </select>
-                    <input type="number" class="number2" placeholder="Second" min="0" max="99" value="0">
+                    <input type="number" class="number2" placeholder="Second" min="0" max="99" value="${initialState ? initialState.num2 : 0}">
                     <span class="equals">=</span>
                     <div class="result">0</div>
                 </div>
@@ -148,6 +196,11 @@ document.addEventListener('DOMContentLoaded', () => {
         problemsContainer.appendChild(cell);
         updateProblemNumbers();
         initializeCell(cell);
+
+        // Update config after adding (unless loading from config to avoid recursion/double update)
+        if (!initialState) {
+            generateConfig();
+        }
     }
 
     function initializeCell(cell) {
@@ -168,9 +221,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const toggleBtns = cell.querySelectorAll('.visual-toggle-btn');
 
         // Event listeners
-        number1Input.addEventListener('input', updateEquation);
-        number2Input.addEventListener('input', updateEquation);
-        operatorSelect.addEventListener('change', updateEquation);
+        number1Input.addEventListener('input', () => { updateEquation(); generateConfig(); });
+        number2Input.addEventListener('input', () => { updateEquation(); generateConfig(); });
+        operatorSelect.addEventListener('change', () => { updateEquation(); generateConfig(); });
 
         toggleBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -184,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Re-render
                 updateEquation();
+                generateConfig();
             });
         });
 
