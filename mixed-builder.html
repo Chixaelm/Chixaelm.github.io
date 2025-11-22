@@ -100,6 +100,24 @@
             background-color: #c0392b;
         }
 
+        .btn-duplicate {
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: background-color 0.2s;
+        }
+
+        .btn-duplicate:hover {
+            background-color: #8e44ad;
+        }
+
         .controls-bar {
             display: flex;
             justify-content: flex-end;
@@ -246,6 +264,9 @@
                 <div class="add-problem-container">
                     <button id="delete-problem-btn" class="btn-delete">
                         <span>🗑️</span> Delete Last Problem
+                    </button>
+                    <button id="duplicate-problem-btn" class="btn-duplicate">
+                        <span>📋</span> Duplicate Problem
                     </button>
                     <button id="add-problem-btn" class="btn-add">
                         <span>+</span> Add Another Problem

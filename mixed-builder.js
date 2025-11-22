@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const problemsContainer = document.getElementById('problems-container');
     const addProblemBtn = document.getElementById('add-problem-btn');
+    const duplicateProblemBtn = document.getElementById('duplicate-problem-btn');
     const deleteProblemBtn = document.getElementById('delete-problem-btn');
     const printModeCheckbox = document.getElementById('print-mode-checkbox');
     const printBtn = document.getElementById('print-btn');
@@ -24,6 +25,52 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth'
         });
         generateConfig();
+    });
+
+    duplicateProblemBtn.addEventListener('click', () => {
+        const cells = problemsContainer.querySelectorAll('.problem-cell');
+        if (cells.length > 0) {
+            const lastCell = cells[cells.length - 1];
+            const id = lastCell.id.split('-')[1];
+
+            const num1 = parseInt(lastCell.querySelector('.number1').value) || 0;
+            const num2 = parseInt(lastCell.querySelector('.number2').value) || 0;
+            const operator = lastCell.querySelector('.operator').value;
+            const visualType = lastCell.dataset.visualType || 'cubes';
+
+            const showVisual1 = lastCell.querySelector(`#stack-checkbox1-${id}`).checked;
+            const showNumber1 = lastCell.querySelector(`#checkbox1-${id}`).checked;
+            const showVisual2 = lastCell.querySelector(`#stack-checkbox2-${id}`).checked;
+            const showNumber2 = lastCell.querySelector(`#checkbox2-${id}`).checked;
+            const showVisual3 = lastCell.querySelector(`#stack-checkbox3-${id}`).checked;
+            const showNumber3 = lastCell.querySelector(`#checkbox3-${id}`).checked;
+
+            const state = {
+                num1,
+                num2,
+                operator,
+                visualType,
+                showVisual1,
+                showNumber1,
+                showVisual2,
+                showNumber2,
+                showVisual3,
+                showNumber3
+            };
+
+            addProblem(state);
+
+            // Scroll to the new problem
+            window.scrollTo({
+                top: document.body.scrollHeight,
+                behavior: 'smooth'
+            });
+            generateConfig();
+        } else {
+            // If no problems exist, just add a default one
+            addProblem();
+            generateConfig();
+        }
     });
 
     deleteProblemBtn.addEventListener('click', () => {
