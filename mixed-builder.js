@@ -70,12 +70,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const num2 = parseInt(cell.querySelector('.number2').value) || 0;
             const operator = cell.querySelector('.operator').value;
             const visualType = cell.dataset.visualType || 'cubes';
+            const id = cell.id.split('-')[1];
+
+            const showVisual1 = cell.querySelector(`#stack-checkbox1-${id}`).checked;
+            const showNumber1 = cell.querySelector(`#checkbox1-${id}`).checked;
+            const showVisual2 = cell.querySelector(`#stack-checkbox2-${id}`).checked;
+            const showNumber2 = cell.querySelector(`#checkbox2-${id}`).checked;
+            const showVisual3 = cell.querySelector(`#stack-checkbox3-${id}`).checked;
+            const showNumber3 = cell.querySelector(`#checkbox3-${id}`).checked;
 
             config.push({
                 num1,
                 num2,
                 operator,
-                visualType
+                visualType,
+                showVisual1,
+                showNumber1,
+                showVisual2,
+                showNumber2,
+                showVisual3,
+                showNumber3
             });
         });
 
@@ -111,6 +125,31 @@ document.addEventListener('DOMContentLoaded', () => {
         // Default visual type
         cell.dataset.visualType = initialState ? initialState.visualType : 'cubes';
 
+        // Default visibility settings
+        const showVisual1 = initialState && initialState.showVisual1 !== undefined ? initialState.showVisual1 : false; // Default unchecked based on HTML template? No, template has no checked attribute for stack-checkbox, wait, let me check template.
+        // Actually, looking at template below:
+        // <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox"> -> Default is unchecked
+        // <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox"> -> Default is unchecked?
+        // Wait, let me check the original template in previous turn.
+        // In previous turn:
+        // <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox">
+        // <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox">
+        // Neither has 'checked' attribute by default in the template string I see in previous turn (Step 236).
+        // However, in the very first version (Step 158), they didn't have checked either.
+        // Let's assume default is unchecked if not specified.
+
+        // Actually, I should check if I want them checked by default. 
+        // In equation-builder-multi.js (which this is based on), are they checked?
+        // Let's look at the template I'm replacing.
+
+        const sv1 = initialState && initialState.showVisual1 !== undefined ? initialState.showVisual1 : false;
+        const sn1 = initialState && initialState.showNumber1 !== undefined ? initialState.showNumber1 : false;
+        const sv2 = initialState && initialState.showVisual2 !== undefined ? initialState.showVisual2 : false;
+        const sn2 = initialState && initialState.showNumber2 !== undefined ? initialState.showNumber2 : false;
+        const sv3 = initialState && initialState.showVisual3 !== undefined ? initialState.showVisual3 : false;
+        const sn3 = initialState && initialState.showNumber3 !== undefined ? initialState.showNumber3 : false;
+
+
         cell.innerHTML = `
             <div class="cell-controls">
                 <div class="problem-number">${problemCount}</div>
@@ -141,11 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="number-visualization number1-vis">
                             <div class="label-container">
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox">
+                                    <input type="checkbox" id="stack-checkbox1-${problemCount}" class="stack-checkbox" ${sv1 ? 'checked' : ''}>
                                     <label for="stack-checkbox1-${problemCount}">Show Cubes</label>
                                 </div>
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox">
+                                    <input type="checkbox" id="checkbox1-${problemCount}" class="number-checkbox" ${sn1 ? 'checked' : ''}>
                                     <label for="checkbox1-${problemCount}">Show Number</label>
                                 </div>
                                 <h3>Fluent Foundations</h3>
@@ -158,11 +197,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="number-visualization number2-vis">
                             <div class="label-container">
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="stack-checkbox2-${problemCount}" class="stack-checkbox">
+                                    <input type="checkbox" id="stack-checkbox2-${problemCount}" class="stack-checkbox" ${sv2 ? 'checked' : ''}>
                                     <label for="stack-checkbox2-${problemCount}">Show Cubes</label>
                                 </div>
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="checkbox2-${problemCount}" class="number-checkbox">
+                                    <input type="checkbox" id="checkbox2-${problemCount}" class="number-checkbox" ${sn2 ? 'checked' : ''}>
                                     <label for="checkbox2-${problemCount}">Show Number</label>
                                 </div>
                                 <h3>Fluent Foundations</h3>
@@ -175,11 +214,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="number-visualization result-vis">
                             <div class="label-container">
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="stack-checkbox3-${problemCount}" class="stack-checkbox">
+                                    <input type="checkbox" id="stack-checkbox3-${problemCount}" class="stack-checkbox" ${sv3 ? 'checked' : ''}>
                                     <label for="stack-checkbox3-${problemCount}">Show Cubes</label>
                                 </div>
                                 <div class="checkbox-label">
-                                    <input type="checkbox" id="checkbox3-${problemCount}" class="number-checkbox">
+                                    <input type="checkbox" id="checkbox3-${problemCount}" class="number-checkbox" ${sn3 ? 'checked' : ''}>
                                     <label for="checkbox3-${problemCount}">Show Number</label>
                                 </div>
                                 <h3>Fluent Foundations</h3>
@@ -220,10 +259,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const toggleBtns = cell.querySelectorAll('.visual-toggle-btn');
 
+        // Visibility checkboxes
+        const checkboxes = cell.querySelectorAll('input[type="checkbox"]:not(.hide-inputs-checkbox)');
+
         // Event listeners
         number1Input.addEventListener('input', () => { updateEquation(); generateConfig(); });
         number2Input.addEventListener('input', () => { updateEquation(); generateConfig(); });
         operatorSelect.addEventListener('change', () => { updateEquation(); generateConfig(); });
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', generateConfig);
+        });
 
         toggleBtns.forEach(btn => {
             btn.addEventListener('click', () => {
