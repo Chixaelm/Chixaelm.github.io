@@ -26,14 +26,14 @@ function updateEquation() {
     const num1 = parseInt(number1Input.value) || 0;
     const num2 = parseInt(number2Input.value) || 0;
     const operator = operatorSelect.value;
-    
+
     // Clamp values to 0-99
     const clampedNum1 = Math.max(0, Math.min(99, num1));
     const clampedNum2 = Math.max(0, Math.min(99, num2));
-    
+
     if (num1 !== clampedNum1) number1Input.value = clampedNum1;
     if (num2 !== clampedNum2) number2Input.value = clampedNum2;
-    
+
     // Calculate result
     let result;
     if (operator === '+') {
@@ -41,16 +41,16 @@ function updateEquation() {
     } else {
         result = Math.max(0, clampedNum1 - clampedNum2);
     }
-    
+
     // Update result display
     resultDisplay.textContent = result;
     operatorDisplay.textContent = operator;
-    
+
     // Update labels with actual numbers
     number1Label.textContent = clampedNum1;
     number2Label.textContent = clampedNum2;
     resultLabel.textContent = result;
-    
+
     // Update visualizations
     renderNumber(clampedNum1, stack1Container);
     renderNumber(clampedNum2, stack2Container);
@@ -59,14 +59,14 @@ function updateEquation() {
 
 function renderNumber(number, container) {
     container.innerHTML = '';
-    
+
     if (number === 0) {
         return;
     }
-    
+
     const tens = Math.floor(number / 10);
     const ones = number % 10;
-    
+
     // Create stacks of 10 for each ten (yellow)
     for (let t = 0; t < tens; t++) {
         const tensStack = document.createElement('div');
@@ -78,7 +78,7 @@ function renderNumber(number, container) {
         }
         container.appendChild(tensStack);
     }
-    
+
     // Create ones stack (red)
     if (ones > 0) {
         const onesStack = document.createElement('div');
@@ -94,7 +94,7 @@ function renderNumber(number, container) {
 function createCube(color) {
     const cube = document.createElement('div');
     cube.className = `cube ${color}`;
-    
+
     // Create visible faces for isometric view (top, front, right, back, left)
     const faces = ['top', 'front', 'right', 'back', 'left'];
     faces.forEach(face => {
@@ -102,7 +102,7 @@ function createCube(color) {
         faceElement.className = `cube-face ${face}`;
         cube.appendChild(faceElement);
     });
-    
+
     return cube;
 }
 
