@@ -183,6 +183,8 @@
             border: none;
             box-shadow: none;
             margin-bottom: 1rem;
+            height: var(--cell-height, auto) !important;
+            min-height: 0 !important;
         }
 
         body.print-mode .problem-content {
@@ -190,14 +192,29 @@
             padding-left: 1rem;
         }
 
-        page-break-inside: avoid;
+        /* Constant gap between visual elements */
+        body.print-mode .equation-display {
+            gap: 2rem !important;
+            /* Fixed gap that doesn't scale */
         }
 
-        .problem-content {
-            padding: 0;
-            padding-left: 1rem;
-            /* Add some spacing from the number */
+        /* Dynamic vertical spacing for containers */
+        body.print-mode .label-container,
+        body.print-mode .stack-control-container,
+        body.print-mode .visualization-container {
+            margin-top: var(--vertical-spacing, 10px) !important;
+            margin-bottom: var(--vertical-spacing, 10px) !important;
+            padding-top: var(--vertical-spacing, 10px) !important;
+            padding-bottom: var(--vertical-spacing, 10px) !important;
         }
+
+        /* Scale only the visuals, not the container */
+        body.print-mode .cube-stack-container,
+        body.print-mode .number-visualization h3,
+        body.print-mode .operator-display,
+        body.print-mode .equals-display {
+            transform: scale(calc(var(--print-scale, 1.0) * 0.6));
+            transform-origin: center;
         }
     </style>
 </head>
@@ -262,6 +279,25 @@
                     <div class="checkbox-label print-mode-toggle">
                         <input type="checkbox" id="print-mode-checkbox">
                         <label for="print-mode-checkbox">Print Mode (Hide Controls)</label>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label for="scale-input" style="font-size: 0.9rem; color: #2c3e50;">Print Scale:</label>
+                        <input type="number" id="scale-input" min="10" max="200" value="100" step="5"
+                            style="width: 70px; padding: 0.25rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                        <span style="font-size: 0.9rem; color: #7f8c8d;">%</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label for="spacing-input" style="font-size: 0.9rem; color: #2c3e50;">Vertical Spacing:</label>
+                        <input type="number" id="spacing-input" min="0" max="50" value="10" step="1"
+                            style="width: 70px; padding: 0.25rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;">
+                        <span style="font-size: 0.9rem; color: #7f8c8d;">px</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem;">
+                        <label for="cell-height-input" style="font-size: 0.9rem; color: #2c3e50;">Cell Height:</label>
+                        <input type="number" id="cell-height-input" min="100" max="1000" step="10"
+                            style="width: 70px; padding: 0.25rem 0.5rem; border: 1px solid #ccc; border-radius: 4px;"
+                            placeholder="auto">
+                        <span style="font-size: 0.9rem; color: #7f8c8d;">px</span>
                     </div>
                 </div>
 

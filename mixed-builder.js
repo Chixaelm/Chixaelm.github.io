@@ -9,6 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const configJson = document.getElementById('config-json');
     const titleInput = document.getElementById('worksheet-title-input');
     const titleDisplay = document.getElementById('worksheet-title');
+    const scaleInput = document.getElementById('scale-input');
+    const spacingInput = document.getElementById('spacing-input');
+    const cellHeightInput = document.getElementById('cell-height-input');
     let problemCount = 0;
 
     // Initialize with one problem
@@ -101,6 +104,33 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.classList.remove('print-mode');
         }
     });
+
+    // Scale input event listener
+    scaleInput.addEventListener('input', (e) => {
+        const scale = e.target.value / 100; // Convert percentage to decimal
+        document.documentElement.style.setProperty('--print-scale', scale);
+    });
+
+    // Initialize scale to 100%
+    document.documentElement.style.setProperty('--print-scale', 1.0);
+
+    // Spacing input event listener
+    spacingInput.addEventListener('input', (e) => {
+        const spacing = e.target.value + 'px';
+        document.documentElement.style.setProperty('--vertical-spacing', spacing);
+    });
+
+    // Initialize spacing
+    document.documentElement.style.setProperty('--vertical-spacing', '10px');
+
+    // Cell height input event listener
+    cellHeightInput.addEventListener('input', (e) => {
+        const height = e.target.value ? e.target.value + 'px' : 'auto';
+        document.documentElement.style.setProperty('--cell-height', height);
+    });
+
+    // Initialize cell height to auto
+    document.documentElement.style.setProperty('--cell-height', 'auto');
 
     printBtn.addEventListener('click', () => {
         window.print();
