@@ -164,7 +164,8 @@
         body.print-mode .cell-controls,
         body.print-mode .config-container,
         body.print-mode .add-problem-container,
-        body.print-mode .visual-toggle-btn {
+        body.print-mode .visual-toggle-btn,
+        body.print-mode .title-container {
             display: none !important;
         }
 
@@ -234,8 +235,17 @@
             </header>
 
             <main class="container">
-                <h2>Mixed Problem Worksheet</h2>
-                <p class="subtitle">Create a custom worksheet with mixed operations</p>
+                <h2 id="worksheet-title">Mixed Problem Worksheet</h2>
+
+                <div class="title-container"
+                    style="margin-bottom: 1rem; background: #f8f9fa; padding: 1rem; border-radius: 8px; border: 1px solid #eee;">
+                    <label for="worksheet-title-input"
+                        style="display: block; margin-bottom: 0.5rem; font-weight: bold; color: #2c3e50;">Worksheet
+                        Title</label>
+                    <input type="text" id="worksheet-title-input"
+                        style="width: 100%; padding: 0.5rem; border: 1px solid #ccc; border-radius: 4px;"
+                        placeholder="Enter worksheet title..." value="Mixed Problem Worksheet">
+                </div>
 
                 <div class="config-container"
                     style="margin-bottom: 2rem; background: #f8f9fa; padding: 1rem; border-radius: 8px; border: 1px solid #eee;">

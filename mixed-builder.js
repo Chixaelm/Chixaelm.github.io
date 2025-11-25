@@ -7,6 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const printModeCheckbox = document.getElementById('print-mode-checkbox');
     const printBtn = document.getElementById('print-btn');
     const configJson = document.getElementById('config-json');
+    const titleInput = document.getElementById('worksheet-title-input');
+    const titleDisplay = document.getElementById('worksheet-title');
     let problemCount = 0;
 
     // Initialize with one problem
@@ -15,6 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
     // Config Event Listener
     configJson.addEventListener('input', () => {
         loadConfig(configJson.value);
+    });
+
+    // Title Event Listener
+    titleInput.addEventListener('input', () => {
+        titleDisplay.textContent = titleInput.value || 'Mixed Problem Worksheet';
+        generateConfig();
     });
 
     addProblemBtn.addEventListener('click', () => {
@@ -110,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function generateConfig() {
         const cells = problemsContainer.querySelectorAll('.problem-cell');
-        const config = [];
+        const problems = [];
 
         cells.forEach(cell => {
             const num1 = parseInt(cell.querySelector('.number1').value) || 0;
@@ -126,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const showVisual3 = cell.querySelector(`#stack-checkbox3-${id}`).checked;
             const showNumber3 = cell.querySelector(`#checkbox3-${id}`).checked;
 
-            config.push({
+            problems.push({
                 num1,
                 num2,
                 operator,
@@ -140,20 +148,42 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
+        const config = {
+            title: titleInput.value || 'Mixed Problem Worksheet',
+            problems: problems
+        };
+
         configJson.value = JSON.stringify(config);
     }
 
     function loadConfig(jsonString) {
         try {
-            const config = JSON.parse(jsonString);
-            if (!Array.isArray(config)) return;
+            const data = JSON.parse(jsonString);
+
+            // Handle both old array format and new object format
+            let problems, title;
+            if (Array.isArray(data)) {
+                // Old format: just an array of problems
+                problems = data;
+                title = 'Mixed Problem Worksheet';
+            } else if (data && typeof data === 'object' && Array.isArray(data.problems)) {
+                // New format: object with title and problems
+                problems = data.problems;
+                title = data.title || 'Mixed Problem Worksheet';
+            } else {
+                return; // Invalid format
+            }
+
+            // Update title
+            titleInput.value = title;
+            titleDisplay.textContent = title;
 
             // Clear existing
             problemsContainer.innerHTML = '';
             problemCount = 0;
 
             // Rebuild
-            config.forEach(item => {
+            problems.forEach(item => {
                 addProblem(item);
             });
 
@@ -475,8 +505,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const remainder = number % 10;
 
         const wrapper = document.createElement('div');
-        wrapper.style.display = 'flex';
-        wrapper.style.flexWrap = 'wrap';
+        wrapper.style.display = 'grid';
+        wrapper.style.gridTemplateColumns = 'repeat(2, max-content)';
         wrapper.style.gap = '1rem';
         wrapper.style.justifyContent = 'center';
 
