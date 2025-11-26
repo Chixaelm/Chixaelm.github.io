@@ -409,9 +409,9 @@ body.sidebar-open .sidebar-backdrop {
 
 .cube-stack-container {
     display: none;
-    align-items: flex-end;
+    align-items: flex-start;
     gap: 1rem;
-    min-height: 150px;
+    min-height: 40px;
     justify-content: center;
     perspective: 1000px;
     perspective-origin: center center;
