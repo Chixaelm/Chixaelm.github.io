@@ -787,14 +787,5 @@ body.print-mode .visualization-container {
 }
 
 body.print-mode .problem-number {
-    background: none;
-    color: black;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    width: auto;
-    height: auto;
-    position: static;
-    display: block;
-    text-align: left;
+    display: none !important;
 }
