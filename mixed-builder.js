@@ -462,17 +462,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Add/Sub
                 renderNumber(clampedNum1, stack1Container, { visualType: visualType, color: 'red' });
                 renderNumber(clampedNum2, stack2Container, { visualType: visualType, color: 'yellow' });
-                renderNumber(result, stack3Container, { visualType: visualType, color: 'green' });
+                renderNumber(result, stack3Container, { visualType: visualType, color: 'green', num1: clampedNum1, num2: clampedNum2, operator: operator });
             }
         }
     }
 
     function renderNumber(number, container, options = {}) {
-        const { horizontalRow = false, stackHeight, stackCount, visualType = 'cubes', color = 'red' } = options;
+        const { horizontalRow = false, stackHeight, stackCount, visualType = 'cubes', color = 'red', num1, num2, operator } = options;
         container.innerHTML = '';
 
         if (visualType === 'ten-frames') {
-            renderTenFrames(number, container, color);
+            renderTenFrames(number, container, color, num1, num2, operator);
             return;
         }
 
@@ -528,7 +528,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function renderTenFrames(number, container, color) {
+    function renderTenFrames(number, container, color, num1, num2, operator) {
         if (number === 0) return;
 
         const fullFrames = Math.floor(number / 10);
@@ -540,19 +540,91 @@ document.addEventListener('DOMContentLoaded', () => {
         wrapper.style.gap = '1rem';
         wrapper.style.justifyContent = 'center';
 
-        // Render full frames
-        for (let i = 0; i < fullFrames; i++) {
-            const frame = createTenFrame(10, `ten-frame-dot-${color}`);
-            wrapper.appendChild(frame);
-        }
+        // Check if this is a result for addition/subtraction with combined colors
+        const useCombinedColors = (operator === '+' || operator === '-') && num1 !== undefined && num2 !== undefined;
 
-        // Render remainder frame
-        if (remainder > 0) {
-            const frame = createTenFrame(remainder, `ten-frame-dot-${color}`);
-            wrapper.appendChild(frame);
+        if (useCombinedColors && operator === '+') {
+            // For addition: show num1 red dots + num2 yellow dots
+            let dotsRemaining = number;
+            let num1Remaining = num1;
+            let num2Remaining = num2;
+
+            // Render frames with combined colors
+            while (dotsRemaining > 0) {
+                const dotsInFrame = Math.min(10, dotsRemaining);
+                const frame = createCombinedTenFrame(dotsInFrame, num1Remaining, num2Remaining);
+                wrapper.appendChild(frame);
+
+                // Update remaining counts
+                dotsRemaining -= dotsInFrame;
+                if (num1Remaining >= dotsInFrame) {
+                    num1Remaining -= dotsInFrame;
+                } else {
+                    const num1Used = num1Remaining;
+                    num1Remaining = 0;
+                    num2Remaining -= (dotsInFrame - num1Used);
+                }
+            }
+        } else {
+            // Original single-color logic
+            // Render full frames
+            for (let i = 0; i < fullFrames; i++) {
+                const frame = createTenFrame(10, `ten-frame-dot-${color}`);
+                wrapper.appendChild(frame);
+            }
+
+            // Render remainder frame
+            if (remainder > 0) {
+                const frame = createTenFrame(remainder, `ten-frame-dot-${color}`);
+                wrapper.appendChild(frame);
+            }
         }
 
         container.appendChild(wrapper);
+    }
+
+    function createCombinedTenFrame(totalDots, num1Dots, num2Dots) {
+        const frame = document.createElement('div');
+        frame.className = 'ten-frame';
+        frame.style.display = 'grid';
+        frame.style.gridTemplateColumns = 'repeat(5, 20px)';
+        frame.style.gridTemplateRows = 'repeat(2, 20px)';
+        frame.style.gap = '4px';
+        frame.style.border = '2px solid #333';
+        frame.style.padding = '4px';
+        frame.style.backgroundColor = '#fff';
+        frame.style.borderRadius = '4px';
+
+        for (let i = 0; i < 10; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'ten-frame-cell';
+            cell.style.width = '20px';
+            cell.style.height = '20px';
+            cell.style.display = 'flex';
+            cell.style.alignItems = 'center';
+            cell.style.justifyContent = 'center';
+
+            if (i < totalDots) {
+                const dot = document.createElement('span');
+                // Determine color based on position
+                if (i < num1Dots) {
+                    dot.className = 'ten-frame-dot-red';
+                    dot.style.backgroundColor = '#ff6666';
+                } else {
+                    dot.className = 'ten-frame-dot-yellow';
+                    dot.style.backgroundColor = '#ffd700';
+                }
+                dot.style.width = '16px';
+                dot.style.height = '16px';
+                dot.style.borderRadius = '50%';
+                dot.style.display = 'block';
+
+                cell.appendChild(dot);
+            }
+            frame.appendChild(cell);
+        }
+
+        return frame;
     }
 
     function createTenFrame(value, colorClass) {
