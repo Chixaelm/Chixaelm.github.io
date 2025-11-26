@@ -361,7 +361,7 @@ body.sidebar-open .sidebar-backdrop {
 }
 
 .label-container h3 {
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 .checkbox-label {
@@ -787,8 +787,14 @@ body.print-mode .visualization-container {
 }
 
 body.print-mode .problem-number {
-    background: white;
+    background: none;
     color: black;
-    border: 2px solid black;
+    border: none;
+    border-radius: 0;
     box-shadow: none;
+    width: auto;
+    height: auto;
+    position: static;
+    display: block;
+    text-align: left;
 }

@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Initialize spacing
-    document.documentElement.style.setProperty('--vertical-spacing', '10px');
+    document.documentElement.style.setProperty('--vertical-spacing', '0px');
 
     // Cell height input event listener
     cellHeightInput.addEventListener('input', (e) => {
@@ -258,8 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
         cell.innerHTML = `
+            <div class="problem-number">${problemCount}</div>
             <div class="cell-controls">
-                <div class="problem-number">${problemCount}</div>
                 <button class="visual-toggle-btn ${cell.dataset.visualType === 'cubes' ? 'active' : ''}" data-type="cubes" title="Use Cubes">
                     🧊
                 </button>
