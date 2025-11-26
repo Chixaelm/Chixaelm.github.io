@@ -565,6 +565,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     num2Remaining -= (dotsInFrame - num1Used);
                 }
             }
+        } else if (useCombinedColors && operator === '-') {
+            // For subtraction: show num1 dots with last num2 dots struck through
+            let dotsRemaining = num1; // Show all num1 dots
+            let regularDotsRemaining = number; // Result (num1 - num2)
+
+            // Render frames with struck-through dots
+            while (dotsRemaining > 0) {
+                const dotsInFrame = Math.min(10, dotsRemaining);
+                const regularDotsInFrame = Math.max(0, Math.min(regularDotsRemaining, dotsInFrame));
+                const struckDotsInFrame = dotsInFrame - regularDotsInFrame;
+
+                const frame = createSubtractionTenFrame(dotsInFrame, regularDotsInFrame, struckDotsInFrame);
+                wrapper.appendChild(frame);
+
+                dotsRemaining -= dotsInFrame;
+                regularDotsRemaining -= regularDotsInFrame;
+            }
         } else {
             // Original single-color logic
             // Render full frames
@@ -620,6 +637,70 @@ document.addEventListener('DOMContentLoaded', () => {
                 dot.style.display = 'block';
 
                 cell.appendChild(dot);
+            }
+            frame.appendChild(cell);
+        }
+
+        return frame;
+    }
+
+    function createSubtractionTenFrame(totalDots, regularDots, struckDots) {
+        const frame = document.createElement('div');
+        frame.className = 'ten-frame';
+        frame.style.display = 'grid';
+        frame.style.gridTemplateColumns = 'repeat(5, 20px)';
+        frame.style.gridTemplateRows = 'repeat(2, 20px)';
+        frame.style.gap = '4px';
+        frame.style.border = '2px solid #333';
+        frame.style.padding = '4px';
+        frame.style.backgroundColor = '#fff';
+        frame.style.borderRadius = '4px';
+
+        for (let i = 0; i < 10; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'ten-frame-cell';
+            cell.style.width = '20px';
+            cell.style.height = '20px';
+            cell.style.display = 'flex';
+            cell.style.alignItems = 'center';
+            cell.style.justifyContent = 'center';
+            cell.style.position = 'relative';
+
+            if (i < totalDots) {
+                const dot = document.createElement('span');
+
+                // Regular dots (not struck through)
+                if (i < regularDots) {
+                    dot.className = 'ten-frame-dot-red';
+                    dot.style.backgroundColor = '#ff6666';
+                } else {
+                    // Struck through dots (lighter color)
+                    dot.className = 'ten-frame-dot-red-light';
+                    dot.style.backgroundColor = '#ffcccc'; // Lighter red
+                    dot.style.opacity = '0.6';
+                }
+
+                dot.style.width = '16px';
+                dot.style.height = '16px';
+                dot.style.borderRadius = '50%';
+                dot.style.display = 'block';
+
+                cell.appendChild(dot);
+
+                // Add strike-through line for struck dots
+                if (i >= regularDots) {
+                    const strike = document.createElement('div');
+                    strike.style.position = 'absolute';
+                    strike.style.width = '20px';
+                    strike.style.height = '2px';
+                    strike.style.backgroundColor = '#333';
+                    strike.style.transform = 'rotate(-45deg)';
+                    strike.style.top = '50%';
+                    strike.style.left = '50%';
+                    strike.style.marginLeft = '-10px';
+                    strike.style.marginTop = '-1px';
+                    cell.appendChild(strike);
+                }
             }
             frame.appendChild(cell);
         }
